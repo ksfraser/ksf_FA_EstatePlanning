@@ -1,0 +1,19 @@
+{
+    "name": "ksfraser/ksf-fa-estateplanning",
+    "description": "FrontAccounting UI/hooks for estate planning",
+    "type": "library",
+    "require": {
+        "php": ">=7.3",
+        "ksfraser/ksf-estateplanning": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "ksfraser\\FrontAccounting\\EstatePlanning\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}
