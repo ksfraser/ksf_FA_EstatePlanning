@@ -1,50 +1,55 @@
 <?php
-// hooks.php
-// Unique integer ID for this module
-#define('SS_ksf_FA_EstatePlanning', 150 << 8);
+// Unique integer — do not reuse. KSF modules: 114–143 assigned, 144+ available.
+define('SS_ksf_FA_EstatePlanning', 145 << 8);
 
 class hooks_ksf_FA_EstatePlanning extends hooks
 {
     var $module_name = 'ksf_FA_EstatePlanning';
-    var $version = '1.0.0';
+    var $version     = '1.0.0';
 
-    // Integration with FA SQL database
     function install_tabs($app)
     {
         set_ext_domain('modules/ksf_FA_EstatePlanning');
-        $app->add_application(new EstatePlanningApp());
+        $app->add_application(new estateplanning_app());
         set_ext_domain();
     }
 
-    // Security configuration
     function install_access()
     {
-        $security_sections['SS_ksf_FA_EstatePlanning'] = 'Estate Planning';
+        $security_sections[SS_ksf_FA_EstatePlanning] = _('Estate Planning');
         $security_areas['SA_ESTATEPLANNING_VIEW'] = array(
-            SS_ksf_FA_EstatePlanning | 1, '_('View Estate Planning')'
+            SS_ksf_FA_EstatePlanning | 1,
+            _('View Estate Planning'),
         );
         return array($security_areas, $security_sections);
     }
 
-    // Database activation
     function activate_extension($company, $check_only = true)
     {
-        $updates = [
-            'install.sql' => array('kmf_estateplanning_records')
-        ];
+        $updates = array('install.sql' => array('ksf_estateplanning_records'));
         return $this->update_databases($company, $updates, $check_only);
     }
 }
 
-
-/\*\/
-
-/\*\/
-class EstatePlanningApp extends application
+/**
+ * Application class for the Estate Planning module.
+ */
+class estateplanning_app extends application
 {
-    public function __construct()
-    { $this->name = 'Estate Planning'; 
-       $this->add_module('Estate Planning');
+    function __construct()
+    {
+        parent::__construct(
+            _('Estate Planning'),
+            _($this->help_context = '&Estate Planning')
+        );
+        $this->add_module(_('Estate Planning'));
+        $this->add_lapp_function(
+            0,
+            _('&Overview'),
+            'modules/ksf_FA_EstatePlanning/pages/overview.php',
+            'SA_ESTATEPLANNING_VIEW',
+            MENU_INQUIRY
+        );
+        $this->add_extensions();
     }
-\/\*
-\/\*
+}
