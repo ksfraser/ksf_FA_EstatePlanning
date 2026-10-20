@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `0_ksf_estateplanning_records` (
     `created_by` INT DEFAULT NULL,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`debtor_no`) REFERENCES `0_debtors`(`debtor_no`) ON DELETE CASCADE,
+    FOREIGN KEY (`debtor_no`) REFERENCES `0_debtors_master`(`debtor_no`) ON DELETE CASCADE,
     INDEX `idx_debtor` (`debtor_no`),
     INDEX `idx_status` (`scenario_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
